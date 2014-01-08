@@ -2,13 +2,15 @@
 import gtk
 import gobject
 import os
+import os.path
 from string import rstrip
+import sys
 
 INTERVAL = 20000
 BATT_FULL = "/sys/class/power_supply/BAT1/charge_full"
 BATT_NOW = "/sys/class/power_supply/BAT1/charge_now"
 BATT_STATE = "/sys/class/power_supply/BAT1/status"
-IMAGE_LOC = "images/battery"
+IMAGE_LOC = os.path.join(os.path.dirname(sys.argv[0]), "images/battery")
 
 
 class BatteryTray:

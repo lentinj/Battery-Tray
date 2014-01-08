@@ -62,7 +62,7 @@ By Jamie Lentin
             f = open(filename)
             return f.read()
 
-        b_level = round(float(slurp(BATT_NOW)) / float(slurp(BATT_FULL)) * 100)
+        b_level = int(round(float(slurp(BATT_NOW)) / float(slurp(BATT_FULL)) * 100))
         b_file = IMAGE_LOC + "." + str(b_level / 10) + ".png"
         self.tray.set_tooltip(
             "%s: %d%%" %

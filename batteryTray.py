@@ -5,9 +5,9 @@ import os
 from string import rstrip
 
 INTERVAL = 20000
-BATT_FULL = "/sys/class/power_supply/BAT0/energy_full"
-BATT_NOW = "/sys/class/power_supply/BAT0/energy_now"
-BATT_STATE = "/sys/class/power_supply/BAT0/status"
+BATT_FULL = "/sys/class/power_supply/BAT1/charge_full"
+BATT_NOW = "/sys/class/power_supply/BAT1/charge_now"
+BATT_STATE = "/sys/class/power_supply/BAT1/status"
 IMAGE_LOC = "images/battery"
 
 

@@ -2,13 +2,15 @@
 import gtk
 import gobject
 import os
+import os.path
 from string import rstrip
+import sys
 
 INTERVAL = 20000
-BATT_FULL = "/sys/class/power_supply/BAT0/energy_full"
-BATT_NOW = "/sys/class/power_supply/BAT0/energy_now"
-BATT_STATE = "/sys/class/power_supply/BAT0/status"
-IMAGE_LOC = "images/battery"
+BATT_FULL = "/sys/class/power_supply/BAT1/charge_full"
+BATT_NOW = "/sys/class/power_supply/BAT1/charge_now"
+BATT_STATE = "/sys/class/power_supply/BAT1/status"
+IMAGE_LOC = os.path.join(os.path.dirname(sys.argv[0]), "images/battery")
 
 
 class BatteryTray:
@@ -62,7 +64,7 @@ By Jamie Lentin
             f = open(filename)
             return f.read()
 
-        b_level = round(float(slurp(BATT_NOW)) / float(slurp(BATT_FULL)) * 100)
+        b_level = int(round(float(slurp(BATT_NOW)) / float(slurp(BATT_FULL)) * 100))
         b_file = IMAGE_LOC + "." + str(b_level / 10) + ".png"
         self.tray.set_tooltip(
             "%s: %d%%" %

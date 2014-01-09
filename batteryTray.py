@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+from glob import glob
 import gtk
 import gobject
 import os
@@ -6,10 +7,25 @@ import os.path
 from string import rstrip
 import sys
 
+# Find battery nodes
+battery_path = None
+for psu in glob("/sys/class/power_supply/*"):
+    with open(os.path.join(psu, 'type')) as f:
+        if f.read().startswith('Battery'):
+            print "Found battery at %s" % psu
+            battery_path = psu
+if not battery_path:
+    print "No battery found!"
+    sys.exit(1)
+
 INTERVAL = 20000
-BATT_FULL = "/sys/class/power_supply/BAT1/charge_full"
-BATT_NOW = "/sys/class/power_supply/BAT1/charge_now"
-BATT_STATE = "/sys/class/power_supply/BAT1/status"
+BATT_FULL = os.path.join(battery_path, "charge_full")
+BATT_NOW = os.path.join(battery_path, "charge_now")
+if not os.path.exists(BATT_FULL):
+    # Thinkpads, when booted on AC, report energy instead of charge
+    BATT_FULL = os.path.join(battery_path, "energy_full")
+    BATT_NOW = os.path.join(battery_path, "energy_now")
+BATT_STATE = os.path.join(battery_path, "status")
 IMAGE_LOC = os.path.join(os.path.dirname(sys.argv[0]), "images/battery")
 
 
